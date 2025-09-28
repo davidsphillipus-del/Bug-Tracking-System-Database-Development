@@ -75,7 +75,7 @@ function App() {
         Password: password
       });
 
-      const { user: userData, token } = response.data.data;
+      const { user: userData, token } = response.data;
       setUser(userData);
       localStorage.setItem('token', token);
       setCurrentPage('dashboard');
@@ -131,7 +131,7 @@ function App() {
       const response = await axios.get(`${API_URL}/issues`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setIssues(response.data.data.data);
+      setIssues(response.data.issues);
     } catch (err) {
       console.error('Failed to load issues');
     }
@@ -144,7 +144,7 @@ function App() {
       const response = await axios.get(`${API_URL}/projects`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setProjects(response.data.data);
+      setProjects(response.data.projects);
     } catch (err) {
       console.error('Failed to load projects');
     }
@@ -154,10 +154,10 @@ function App() {
   const loadAssignableUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/users/assignable`, {
+      const response = await axios.get(`${API_URL}/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setAssignableUsers(response.data.data);
+      setAssignableUsers(response.data.users);
     } catch (err) {
       console.error('Failed to load users');
     }
@@ -208,7 +208,7 @@ function App() {
     try {
       const token = localStorage.getItem('token');
       await axios.put(`${API_URL}/issues/${issueId}/status`, {
-        NewStatus: newStatus
+        Status: newStatus
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
